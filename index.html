@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>5E - Money Wash</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+	<style>
+		/* HTML Parts */
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
+  			height: 100%;
+		}
+		h1 {
+			color: white;
+			font-size: 36px;
+			font-family: Poppins;
+		}
+		h3 {
+			font-size: 32px;
+			font-family: Poppins;
+			font-weight: 800;
+			text-shadow: rgb(0, 0, 0) 1px 1px 8px;
+			margin: 0;
+		}
+		h5 {
+			font-size: 14px;
+			font-family: Poppins;
+			font-weight: 400;
+			text-shadow: rgb(0, 0, 0) 3px 3px 8px;
+			margin: 0;
+			padding: 0px 10px 0px 10px;
+			font-style: italic;
+			background-color: rgba(0, 0, 0, 0.300);
+			text-align: center;
+		}
+		p {
+			color: white;
+			font-size: 24px;
+			font-family: Poppins;
+		}
+		button {
+			background-color: #04AA6D;
+			color: white;
+			padding: 14px 20px;
+			border: none;
+			border-radius: 10px;
+			font-size: 24px;
+			font-family: Poppins;
+			cursor: pointer;
+			margin-top: 20px;
+			transition: 0.3s;
+		}
+		button:hover {
+			background-color: #3e8e41;
+		}
+
+		/* Classes */
+		.container {
+			position: relative;
+			width: 25%;
+			background-color: black;
+			border-radius: 20px;
+			padding: 20px;
+			text-align: center;
+			margin-top: 20%;
+		}
+		.close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			color: white;
+			font-size: 24px;
+			cursor: pointer;
+		}
+
+		.notification {
+			position: fixed;
+			top: 50%;
+			left: 0;
+			transform: translateY(-50%);
+			padding: 0px 10px 0px 10px;
+			color: white;
+			margin: 0;
+		}
+
+		/* Ids */
+		#close-btn {
+			padding: 10px;
+			margin: 10px;
+			background-color: rgb(41, 41, 41);
+			border-radius: 10px;
+			transition: 0.3s;
+		}
+
+		#close-btn:hover {
+			cursor: pointer;
+			background-color: #8e3e3e;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<i id="close-btn" class="fas fa-times close"></i>
+		<h1>Money Wash</h1>
+		<p id="moneydata">You have 10,000$ money to wash</p>
+		<button id="washMoney">Wash</button>
+	</div>
+	<div class="notification">
+		<h3>Money Wash</h3>
+		<h5>Press [E] to open</h5>
+	</div>
+	<script>
+
+		$(document).ready(function() {
+			$(".container").hide();
+			$(".notification").hide();
+            window.addEventListener('message', function(event) {
+                let data = event.data;
+				if (data.display !== undefined && data.display === true) {
+					$(".container").fadeIn();
+					$("#moneydata").html('You have '+ numberWithCommas(data.blackmoney) +'$ money to wash');
+				} else {
+					$(".container").fadeOut();
+				}
+
+				if (data.notificationdisplay !== undefined && data.notificationdisplay === true) {
+					$(".notification").fadeIn();
+				} else {
+					$(".notification").fadeOut();
+				}
+
+				$(".container").on("click", "#close-btn", function() {
+					$(".container").fadeOut();
+					$.post('https://5e-moneywash/exit', JSON.stringify({}));
+				});
+
+				$(".container").on("click", "#washMoney", function() {
+					$(".container").fadeOut();
+					$.post('https://5e-moneywash/washMoney', JSON.stringify({}));
+				});
+				
+				function numberWithCommas(x) {
+					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				}
+
+				document.onkeyup = function (data) {
+				if(data.which == 27) {
+					$(".container").fadeOut();
+					$.post('https://5e-moneywash/exit', JSON.stringify({}));
+					return;
+				}
+			};
+
+            });
+        });
+	</script>
+</body>
+</html>
