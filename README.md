@@ -35,7 +35,7 @@
 <h2 align="left">Preview:</h2>
 
 ###
-<p align="left"><a href="=https://www.youtube.com/watch?v=tM6eHXFQock=" target="_blank">Youtube Preview</a></p>
+<p align="left"><a href="https://www.youtube.com/watch?v=tM6eHXFQock" target="_blank">Youtube Preview</a></p>
 <div align="left">
   <img height="200" src="https://cdn.discordapp.com/attachments/901033413958594630/1151880216935923764/image.png"  />
 </div>
