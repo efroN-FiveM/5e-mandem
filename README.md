@@ -28,7 +28,7 @@
 
 ###
 
-<p align="left">• Optimized map<br>• Map texture redesign</p>
+<p align="left">• Optimized map<br>• Map texture redesign<br>• Support via Tickets</p>
 
 ###
 
